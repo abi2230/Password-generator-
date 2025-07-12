@@ -1,0 +1,38 @@
+from tkinter import *
+import random
+import string
+import pyperclip
+
+# Initialize window
+root = Tk()
+root.geometry("400x400")
+root.resizable(0,0)
+root.title("Password Generator")
+
+# Define password generator function
+def Generator():
+    password = ''
+    for x in range(0,4):
+        password += random.choice(string.ascii_uppercase) + random.choice(string.ascii_lowercase) + random.choice(string.digits) + random.choice(string.punctuation)
+    password = password[:4]  # Keep only the first 4 characters to avoid repetition
+    for y in range(pass_len.get()- 4):
+        password += random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits + string.punctuation)
+    pass_str.set(password)
+
+# Define copy function
+def Copy_password():
+    pyperclip.copy(pass_str.get())
+
+# Create GUI elements
+pass_str = StringVar()
+pass_len = IntVar()
+pass_len.set(8)  # Default password length
+
+Label(root, text="Password Generator", font=("Arial", 20)).pack(pady=10)
+Label(root, text="Password Length").pack()
+Spinbox(root, from_=8, to=32, textvariable=pass_len).pack()
+Button(root, text="GENERATE PASSWORD", command=Generator).pack(pady=10)
+Entry(root, textvariable=pass_str).pack()
+Button(root, text="COPY TO CLIPBOARD", command=Copy_password).pack(pady=5)
+
+root.mainloop()
